@@ -19,7 +19,7 @@ int main()
 }
 int power (int x, int y)
 {
-	if (y>1)
+	if (y>=1)
 		return x * power (x,y-1);
 	else
 		return 1;
