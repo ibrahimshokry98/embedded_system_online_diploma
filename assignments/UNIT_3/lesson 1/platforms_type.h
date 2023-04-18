@@ -23,7 +23,7 @@ typedef signed short         				sint16;
 typedef signed long          				sint32;
 typedef signed long long     				sint64;
 
-/* signed values */
+/* real values */
 
 typedef float 								float32;
 typedef double 								float64;
