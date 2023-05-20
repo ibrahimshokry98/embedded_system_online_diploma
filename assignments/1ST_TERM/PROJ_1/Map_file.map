@@ -1,0 +1,245 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+ACT_state           0x4               al_act.o
+ACT_State_id        0x1               al_act.o
+AL_MON_State        0x4               al_mon.o
+ALG_state           0x4               alg.o
+PS_state            0x4               ps.o
+ALG_State_id        0x1               alg.o
+PS_State_id         0x1               main.o
+AL_MON_State_id     0x1               al_mon.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+flash            0x0000000008000000 0x0000000000020000 xr
+ram              0x0000000020000000 0x0000000000005000 xrw
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+
+.text           0x0000000008000000      0x39c
+ *(.vectors)
+ .vectors       0x0000000008000000       0x1c startup.o
+                0x0000000008000000                vectors
+ *(.text)
+ .text          0x000000000800001c       0xac al_act.o
+                0x000000000800001c                ACT_init
+                0x0000000008000028                Start_Alarm
+                0x0000000008000044                Stop_Alarm
+                0x0000000008000060                st_ACT_idle
+                0x0000000008000078                st_ACT_Alarm_ON
+                0x00000000080000a0                st_ACT_Alarm_OFF
+ .text          0x00000000080000c8       0x68 al_mon.o
+                0x00000000080000c8                High_Pressure_Detected
+                0x00000000080000e4                st_MON_Alarm_ON
+                0x0000000008000118                st_MON_Alarm_OFF
+ .text          0x0000000008000130       0x54 alg.o
+                0x0000000008000130                Set_Pressure_Val
+                0x000000000800014c                st_Pressure_Check
+ .text          0x0000000008000184       0xc4 driver.o
+                0x0000000008000184                Delay
+                0x00000000080001a4                getPressureVal
+                0x00000000080001bc                Set_Alarm_actuator
+                0x00000000080001f8                GPIO_INITIALIZATION
+ .text          0x0000000008000248       0x7c main.o
+                0x0000000008000248                SETUP
+                0x000000000800028c                main
+ .text          0x00000000080002c4       0x44 ps.o
+                0x00000000080002c4                PS_init
+                0x00000000080002d0                st_PS_busy
+ .text          0x0000000008000308       0x94 startup.o
+                0x0000000008000308                MM_Fault_handler
+                0x0000000008000308                Default_Handler
+                0x0000000008000308                Usage_Fault_Handler
+                0x0000000008000308                H_FaultHandler
+                0x0000000008000308                Bus_Handler
+                0x0000000008000308                NMI_Handler
+                0x0000000008000314                Reset_Handler
+ *(.rodata)
+                0x000000000800039c                _E_TEXT = .
+
+.glue_7         0x000000000800039c        0x0
+ .glue_7        0x000000000800039c        0x0 linker stubs
+
+.glue_7t        0x000000000800039c        0x0
+ .glue_7t       0x000000000800039c        0x0 linker stubs
+
+.vfp11_veneer   0x000000000800039c        0x0
+ .vfp11_veneer  0x000000000800039c        0x0 linker stubs
+
+.v4_bx          0x000000000800039c        0x0
+ .v4_bx         0x000000000800039c        0x0 linker stubs
+
+.iplt           0x000000000800039c        0x0
+ .iplt          0x000000000800039c        0x0 al_act.o
+
+.rel.dyn        0x000000000800039c        0x0
+ .rel.iplt      0x000000000800039c        0x0 al_act.o
+
+.data           0x0000000020000000        0x8 load address 0x000000000800039c
+                0x0000000020000000                _S_DATA = .
+ *(.data)
+ .data          0x0000000020000000        0x0 al_act.o
+ .data          0x0000000020000000        0x0 al_mon.o
+ .data          0x0000000020000000        0x4 alg.o
+                0x0000000020000000                Pressure_Threshold
+ .data          0x0000000020000004        0x4 driver.o
+                0x0000000020000004                ODR_R
+ .data          0x0000000020000008        0x0 main.o
+ .data          0x0000000020000008        0x0 ps.o
+ .data          0x0000000020000008        0x0 startup.o
+                0x0000000020000008                . = ALIGN (0x4)
+                0x0000000020000008                _E_DATA = .
+
+.igot.plt       0x0000000020000008        0x0 load address 0x00000000080003a4
+ .igot.plt      0x0000000020000008        0x0 al_act.o
+
+.bss            0x0000000020000008     0x1024 load address 0x00000000080003a4
+                0x0000000020000008                _S_BSS = .
+ *(.bss)
+ .bss           0x0000000020000008        0x0 al_act.o
+ .bss           0x0000000020000008        0x0 al_mon.o
+ .bss           0x0000000020000008        0x4 alg.o
+                0x0000000020000008                ALG_Pressure_Val
+ .bss           0x000000002000000c        0x0 driver.o
+ .bss           0x000000002000000c        0x0 main.o
+ .bss           0x000000002000000c        0x4 ps.o
+                0x000000002000000c                PS_Pressure_Val
+ .bss           0x0000000020000010        0x0 startup.o
+                0x0000000020000010                . = ALIGN (0x4)
+                0x0000000020000010                _E_BSS = .
+                0x0000000020001010                . = (. + 0x1000)
+ *fill*         0x0000000020000010     0x1000 
+                0x0000000020001010                _Stack_top = .
+ COMMON         0x0000000020001010        0x5 al_act.o
+                0x0000000020001010                ACT_state
+                0x0000000020001014                ACT_State_id
+ *fill*         0x0000000020001015        0x3 
+ COMMON         0x0000000020001018        0x5 al_mon.o
+                0x0000000020001018                AL_MON_State
+                0x000000002000101c                AL_MON_State_id
+ *fill*         0x000000002000101d        0x3 
+ COMMON         0x0000000020001020        0x5 alg.o
+                0x0000000020001020                ALG_state
+                0x0000000020001024                ALG_State_id
+ COMMON         0x0000000020001025        0x1 main.o
+                0x0000000020001025                PS_State_id
+ *fill*         0x0000000020001026        0x2 
+ COMMON         0x0000000020001028        0x4 ps.o
+                0x0000000020001028                PS_state
+LOAD al_act.o
+LOAD al_mon.o
+LOAD alg.o
+LOAD driver.o
+LOAD main.o
+LOAD ps.o
+LOAD startup.o
+OUTPUT(High_Pressure_Detection.elf elf32-littlearm)
+
+.debug_info     0x0000000000000000     0x3f51
+ .debug_info    0x0000000000000000      0xa59 al_act.o
+ .debug_info    0x0000000000000a59      0xa14 al_mon.o
+ .debug_info    0x000000000000146d      0xa43 alg.o
+ .debug_info    0x0000000000001eb0      0xa7c driver.o
+ .debug_info    0x000000000000292c      0xa9c main.o
+ .debug_info    0x00000000000033c8      0xa21 ps.o
+ .debug_info    0x0000000000003de9      0x168 startup.o
+
+.debug_abbrev   0x0000000000000000      0xc0c
+ .debug_abbrev  0x0000000000000000      0x1e1 al_act.o
+ .debug_abbrev  0x00000000000001e1      0x1e1 al_mon.o
+ .debug_abbrev  0x00000000000003c2      0x1f2 alg.o
+ .debug_abbrev  0x00000000000005b4      0x20b driver.o
+ .debug_abbrev  0x00000000000007bf      0x1d8 main.o
+ .debug_abbrev  0x0000000000000997      0x1cb ps.o
+ .debug_abbrev  0x0000000000000b62       0xaa startup.o
+
+.debug_loc      0x0000000000000000      0x4c8
+ .debug_loc     0x0000000000000000      0x120 al_act.o
+ .debug_loc     0x0000000000000120       0x9c al_mon.o
+ .debug_loc     0x00000000000001bc       0x88 alg.o
+ .debug_loc     0x0000000000000244      0x140 driver.o
+ .debug_loc     0x0000000000000384       0x70 main.o
+ .debug_loc     0x00000000000003f4       0x58 ps.o
+ .debug_loc     0x000000000000044c       0x7c startup.o
+
+.debug_aranges  0x0000000000000000       0xe0
+ .debug_aranges
+                0x0000000000000000       0x20 al_act.o
+ .debug_aranges
+                0x0000000000000020       0x20 al_mon.o
+ .debug_aranges
+                0x0000000000000040       0x20 alg.o
+ .debug_aranges
+                0x0000000000000060       0x20 driver.o
+ .debug_aranges
+                0x0000000000000080       0x20 main.o
+ .debug_aranges
+                0x00000000000000a0       0x20 ps.o
+ .debug_aranges
+                0x00000000000000c0       0x20 startup.o
+
+.debug_line     0x0000000000000000     0x1267
+ .debug_line    0x0000000000000000      0x2b3 al_act.o
+ .debug_line    0x00000000000002b3      0x2a9 al_mon.o
+ .debug_line    0x000000000000055c      0x376 alg.o
+ .debug_line    0x00000000000008d2      0x2ca driver.o
+ .debug_line    0x0000000000000b9c      0x2d9 main.o
+ .debug_line    0x0000000000000e75      0x374 ps.o
+ .debug_line    0x00000000000011e9       0x7e startup.o
+
+.debug_str      0x0000000000000000      0x767
+ .debug_str     0x0000000000000000      0x545 al_act.o
+                                        0x5c7 (size before relaxing)
+ .debug_str     0x0000000000000545       0x5e al_mon.o
+                                        0x5af (size before relaxing)
+ .debug_str     0x00000000000005a3       0x6f alg.o
+                                        0x5ca (size before relaxing)
+ .debug_str     0x0000000000000612       0x78 driver.o
+                                        0x5b8 (size before relaxing)
+ .debug_str     0x000000000000068a       0x27 main.o
+                                        0x5fe (size before relaxing)
+ .debug_str     0x00000000000006b1       0x28 ps.o
+                                        0x58f (size before relaxing)
+ .debug_str     0x00000000000006d9       0x8e startup.o
+                                        0x1da (size before relaxing)
+
+.comment        0x0000000000000000       0x7b
+ .comment       0x0000000000000000       0x7b al_act.o
+                                         0x7c (size before relaxing)
+ .comment       0x000000000000007b       0x7c al_mon.o
+ .comment       0x000000000000007b       0x7c alg.o
+ .comment       0x000000000000007b       0x7c driver.o
+ .comment       0x000000000000007b       0x7c main.o
+ .comment       0x000000000000007b       0x7c ps.o
+ .comment       0x000000000000007b       0x7c startup.o
+
+.ARM.attributes
+                0x0000000000000000       0x33
+ .ARM.attributes
+                0x0000000000000000       0x33 al_act.o
+ .ARM.attributes
+                0x0000000000000033       0x33 al_mon.o
+ .ARM.attributes
+                0x0000000000000066       0x33 alg.o
+ .ARM.attributes
+                0x0000000000000099       0x33 driver.o
+ .ARM.attributes
+                0x00000000000000cc       0x33 main.o
+ .ARM.attributes
+                0x00000000000000ff       0x33 ps.o
+ .ARM.attributes
+                0x0000000000000132       0x33 startup.o
+
+.debug_frame    0x0000000000000000      0x2fc
+ .debug_frame   0x0000000000000000       0xbc al_act.o
+ .debug_frame   0x00000000000000bc       0x68 al_mon.o
+ .debug_frame   0x0000000000000124       0x54 alg.o
+ .debug_frame   0x0000000000000178       0xa0 driver.o
+ .debug_frame   0x0000000000000218       0x4c main.o
+ .debug_frame   0x0000000000000264       0x48 ps.o
+ .debug_frame   0x00000000000002ac       0x50 startup.o
